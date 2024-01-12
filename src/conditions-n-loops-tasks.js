@@ -461,7 +461,7 @@ function shuffleChar(/* str, iterations */) {
  */
 function getNearestBigger(number) {
   const str = `${number}`;
-  const arr = str.split('');
+  const arr = Array(...str);
   const lengthArr = arr.length;
   let minNum = -1;
   let minInd = -1;
@@ -484,15 +484,17 @@ function getNearestBigger(number) {
   smallSubNumber = arr[smallest];
   arr[minInd] = smallSubNumber;
   arr[smallest] = minNum;
-  arr.slice(minInd).sort((a, b) => a - b);
+
+  const temp = [...arr];
+  const temp1 = [...arr];
 
   const nextInd = minInd + 1;
-  const resArr = +arr
-    .slice(0, nextInd)
-    .concat(arr.slice(nextInd).sort((a, b) => a - b))
-    .join('');
+  const resArr = [
+    ...temp.splice(0, minInd + 1),
+    ...temp1.splice(nextInd).sort((a, b) => a - b),
+  ];
 
-  return resArr;
+  return +resArr.join('');
 }
 
 module.exports = {
