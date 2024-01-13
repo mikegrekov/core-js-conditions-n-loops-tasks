@@ -440,20 +440,35 @@ function sortByAsc(arr) {
  */
 function shuffleChar(str, iterations) {
   let tempStr = str;
+  let iterationFlag = true;
+  let iterationIndex = -1;
   const len = str.length;
+
+  const tempArr = [str, '', '', '', ''];
   for (let j = 1; j <= iterations; j += 1) {
+    if (!iterationFlag) break;
     let tempOdd = '';
     let tempEven = '';
-    for (let i = 0; i < len; i += 1) {
-      if (i % 2 !== 0) {
-        tempOdd += tempStr[i];
+    if (iterationFlag) {
+      for (let i = 0; i < len; i += 1) {
+        if (i % 2 !== 0) {
+          tempOdd += tempStr[i];
+        } else {
+          tempEven += tempStr[i];
+        }
+      }
+      tempStr = `${tempEven}${tempOdd}`;
+      if (tempStr !== str) {
+        tempArr[j] = tempStr;
       } else {
-        tempEven += tempStr[i];
+        iterationFlag = false;
+        iterationIndex = j;
       }
     }
-    tempStr = `${tempEven}${tempOdd}`;
   }
-  return tempStr;
+  if (iterationFlag) return tempArr[iterations];
+  if (!iterationFlag) return tempArr[iterations % iterationIndex];
+  return false;
 }
 
 /**
